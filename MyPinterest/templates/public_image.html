@@ -1,0 +1,12 @@
+{% extends 'basic.html' %}
+{% block title %}Public | My Website{% endblock title %}
+{% block content %}
+<form action="#" method="post">
+    <button type="submit">lam moi</button>
+</form>
+<p>
+    {%for x in list_public_image%}
+        <img src={{x}} alt="1" width=100>
+    {% endfor %}
+</p>
+{% endblock content %}

@@ -1,0 +1,10 @@
+{% extends 'basic.html' %}
+{% block title %}Image | My Website{% endblock title %}
+{% block onload %}onload="show_image('{{url_image}}')"{% endblock onload %}
+{% block content %}
+<script src="static/js/show_image.js"></script>
+<form> 
+    <button type="submit"> other image </button>
+</form>
+<p id="image"></p>
+{% endblock content %}

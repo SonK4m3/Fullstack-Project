@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}My Website{% endblock title %} </title>
+  </head>
+  <body {% block onload%}{% endblock onload%}>
+    <div>
+      <h1> Welcome to my Website </h1>
+      <h2> image of pokemon</h2>
+    </div>
+    <div class="container">
+      <header class="d-flex justify-content-center py-3"> 
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <div class="dropdown">
+              <a href="/home" class="nav-link active" aria-current="page">home</a>
+            </div>
+          </li>
+          <li>
+                <div>
+                  <a href="/image" class="nav-link active" aria-current="page">image</a>
+                </div>
+          </li>
+          <li>
+            <div>
+              <a href="/list" class="nav-link active" aria-current="page">list</a>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a href="/public" class="nav-link active" aria-current="page">public</a>
+            </div>
+          </li>
+        </ul>        
+      </header>
+    </div>
+    <main>
+      {% block content %}{% endblock content %}
+    </main>
+  </body>
+</html>

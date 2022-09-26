@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+{% block title %}Image | My Website{% endblock title %}
+{% block content %}
+<form> 
+    <button type="submit"> other image </button>
+</form>
+{%for x in list_image%}
+  <img src={{x}} alt="1" width=100>
+{% endfor %}
+{% endblock content %}
