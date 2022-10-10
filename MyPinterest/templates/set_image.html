@@ -1,13 +1,23 @@
-<script src="static/js/show_image.js"></script>
 {% extends 'basic.html' %}
-{% block title %}Image | My Website{% endblock title %}
-{% block onload %}onload="show_set_image({{set_image}})"{% endblock onload %}
+{% block title %}Set Image | My Website{% endblock title %}
+{% block style %} <link rel="stylesheet" href="/static/styles/set_image.css"> {% endblock style %}
+{% block onload %}onload="_set_image({{set_image}}, {{list_topics}}, '{{topic}}');"{% endblock onload %}
+{% block dictionary %}Set{% endblock dictionary %} {% block topic %}{{topic}}{% endblock topic %}
 {% block content %}
 <form action="#" method="post"> 
-    <label>nhap so anh</label>
-    <input type="text" name="number" value="5"></input>
-    <button type="submit"> other image </button>
+    <label for = 'limit-number'>Number of Image: </label>
+    <select name="limit-number" id="limit-number">
+        <option value="6" id="number-image" name='6-images'>6</option>
+        <option value="15" id="number-image" name='15-images'>15</option>
+            <option value="21" id="number-image" name='21-images'>21</option>
+        </select>
+        <button class="button" type="submit" name="button" value="another-list"> other image </button>
 </form>
-<p id="image">
-</p>
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+        </div>
+    </div>
+</div>
 {% endblock content %}

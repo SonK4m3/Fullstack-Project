@@ -3,9 +3,9 @@ import json
 import os
 import urllib
 
-PATH = 'd:\\Python\\Flask\\MyPinterest\\crawler'
+PATH = 'D:/Python/Flask/MyPinterest/backend/topics'
 URL = None
-
+OUT_PUT = 'D:\Python\Flask\MyPinterest\crawler\photos'
 '''
 d is list or dictionary
 if d has json objects, we find object has format "orig" : { ... 
@@ -45,11 +45,8 @@ class Scraper:
         # prev get links
         results = self.get_urls()
         
-        #debug
-        print('--------------------')
-        print('created get_urls.json')
-        filename = PATH + '/debug/get_urls.json'
-        write_json(filename, results)
+        filename = PATH + '/' + self.config.search_keywords +  '.json'
+        rewrite_json(filename, results)
 
 
         try:
@@ -72,7 +69,7 @@ class Scraper:
                         # print("Download ::: ", i)
 
                         #download image from browser
-                        urllib.request.urlretrieve(i, os.path.join(output_path, file_name))
+                        # urllib.request.urlretrieve(i, os.path.join(output_path, file_name))
                     except Exception as e:
                         print("Error:", e)
 
@@ -95,21 +92,6 @@ class Scraper:
         resource_response = jsonData["resource_response"]
         data = resource_response["data"]
         results = data["results"]
-
-        #debug
-
-        print('-------------------')
-        print('created resource_response.json')
-        write_json(PATH + '/debug/resource_response.json', resource_response)
-
-        print('-------------------')
-        print('created data.json')
-        write_json(PATH + '/debug/data.json', data)
-
-        print('-------------------')
-        print('created result.json')
-        write_json(PATH + '/debug/results.json', results)
-
         #get image url
         for i in results:
             try:
@@ -132,6 +114,20 @@ class Scraper:
                 pass
 
 def write_json(filename, data):
-    if not os.path.exists(filename):
-        with open(filename, 'w', encoding='utf8') as f:
-            json.dump(data, f, indent=4, ensure_ascii=False)
+    with open(filename, 'w', encoding='utf8') as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
+
+def rewrite_json(filename, data):
+    old_data = read_json(filename)
+    new_data = old_data + data
+    write_json(filename, new_data)
+
+def read_json(path):
+    try:
+        with open(path, 'r') as f:
+            data = json.load(f)
+            return data
+    except Exception as e:
+        with open(path, 'w', encoding='utf8') as f:
+            json.dump([], f, indent=4, ensure_ascii=False)
+        return []

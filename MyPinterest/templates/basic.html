@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>{% block title %}My Website{% endblock title %} </title>
-  </head>
-  <body {% block onload%}{% endblock onload%}>
-    <div>
-      <h1> Welcome to my Website </h1>
-      <h2> image of pokemon</h2>
-    </div>
+
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}My Website{% endblock title %} </title>
+  <script src="/static/js/show_image.js"></script>
+  
+  <link rel="stylesheet" href="/static/styles/basic.css">
+  {% block style %}{% endblock style %}
+</head>
+
+<body {% block onload%}onload="_basic({{list_topics}}, '{{topic}}');" {% endblock onload%}>
+  <div class="top">
+    <h1> Welcome to my Website </h1>
     <div class="container">
-      <header class="d-flex justify-content-center py-3"> 
-        <ul class="nav nav-pills">
-          <li class="nav-item">
-            <div class="dropdown">
-              <a href="/home" class="nav-link active" aria-current="page">home</a>
-            </div>
-          </li>
-          <li>
-                <div>
-                  <a href="/image" class="nav-link active" aria-current="page">image</a>
-                </div>
-          </li>
-          <li>
-            <div>
-              <a href="/list" class="nav-link active" aria-current="page">list</a>
-            </div>
-          </li>
-          <li>
-            <div>
-              <a href="/public" class="nav-link active" aria-current="page">public</a>
-            </div>
-          </li>
-        </ul>        
+      <header class="p-3 mb-3 border-bottom">
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" id="actives">
+        </ul>
       </header>
     </div>
-    <main>
-      {% block content %}{% endblock content %}
-    </main>
-  </body>
+    <div class="select">
+      <form method="post">
+        <label for="select-topic"> Select topic:
+          <select id="select-topic" name="select-topic" autofocus>
+            <option value={{topic}}>--Choose a topic--</option>
+          </select>
+        </label>
+        <button class="button" type="submit" name="button" value="submit-topic">Show</button>
+      </form>
+    </div>
+  </div>
+  <main>
+    <h2> {% block dictionary %}Image{% endblock dictionary %} of {% block topic %}topic{% endblock topic %} </h2>
+    {% block content %}{% endblock content %}
+  </main>
+  <script>
+
+  </script>
+</body>
+
 </html>

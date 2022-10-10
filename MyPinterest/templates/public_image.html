@@ -1,5 +1,6 @@
 {% extends 'basic.html' %}
 {% block title %}Public | My Website{% endblock title %}
+{% block onload %}onload="_basic({{list_topics}}, '{{topic}}');"{% endblock onload %}
 {% block content %}
 <form action="#" method="post">
     <button type="submit">lam moi</button>
