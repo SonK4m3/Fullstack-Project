@@ -6,6 +6,7 @@
   <title>{% block title %}My Website{% endblock title %} </title>
   <script src="/static/js/show_image.js"></script>
   
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
   <link rel="stylesheet" href="/static/styles/basic.css">
   {% block style %}{% endblock style %}
 </head>
@@ -13,7 +14,7 @@
 <body {% block onload%}onload="_basic({{list_topics}}, '{{topic}}');" {% endblock onload%}>
   <div class="top">
     <h1> Welcome to my Website </h1>
-    <div class="container">
+    <div class="container-header">
       <header class="p-3 mb-3 border-bottom">
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" id="actives">
         </ul>

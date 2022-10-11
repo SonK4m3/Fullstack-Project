@@ -4,30 +4,40 @@
 <link rel="stylesheet" href="/static/styles/list_image.css">
 <link rel="stylesheet" href="/static/styles/set_image.css">
 {% endblock style %}
-{% block onload %}onload="_list_image({{list_image}}, {{list_topics}}, '{{topic}}');"{% endblock onload %}
+{% block onload %}onload="_list_image({{list_image}}, {{list_topics}}, '{{topic}}', '{{offset}}', '{{per_page}}');"{% endblock onload %}
 {% block dictionary %}List{% endblock dictionary %} {% block topic %}{{topic}}{% endblock topic %}
 {% block content %}
-<div> 
+<form action="#" method="post"> 
   <label for = 'limit-number'>Number of Image: </label>
   <select name="limit-number" id="limit-number">
-      <option value="6" id="number-image" name='6-images'>6</option>
-      <option value="15" id="number-image" name='15-images'>15</option>
-      <option value="21" id="number-image" name='21-images'>21</option>
+    <option>-{{per_page}}-</option>
+    <option value="6" id="number-image" name='6-images'>6</option>
+    <option value="15" id="number-image" name='15-images'>15</option>
+    <option value="21" id="number-image" name='21-images'>21</option>
     </select>
-    <button class="button" id="btn-another-list" name="button" value="another-list"> Other image </button>
-</div>
+    <button class="button" type="submit" name="button" value="another-list"> other image </button>
+</form>
 <div class="page-controller">
-  <button class="left-icon-btn btn-left"></button>
-  <button class="btn-page-controller"></button>
-  <button class="btn-page-controller"></button>
-  <button class="btn-page-controller"></button>
-  <button class="btn-page-controller"></button>
-  <button class="btn-page-controller"></button>
-  <button class="right-icon-btn btn-right"></button>
+    {{pagination.links}}
 </div>
-<div class="album py-5 bg-light">
-  <div class="container">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"></div>
+<div class="album-image py-5 bg-light">
+  <div class="container-album">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for x in range(offset, offset + per_page) %}
+          <div class="col">
+            <div class="card">
+              <img src={{list_image[x]}} width=400>
+              <div class="card-body">
+                <p class="card-text"></p>
+                <div class="btn-group">
+                  <button class="btn-a btn-accept">Accept</button>
+                  <button class="btn-a btn-deny">Deny</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
   </div>
 </div>
 {% endblock content %}
