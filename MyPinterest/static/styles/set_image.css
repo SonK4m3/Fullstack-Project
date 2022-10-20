@@ -1,10 +1,10 @@
 .album-image {
-    background-color: #ffebcd!important;
+    background-color: #ffebcd !important;
     padding: 0;
     margin: 0;
 }
 
-.row{
+.row {
     display: flex;
     flex-wrap: wrap;
     padding-top: 2rem;
@@ -13,7 +13,7 @@
     margin: 0;
 }
 
-.col{
+.col {
     padding: 0 0;
     margin-left: 2%;
     margin-right: 1%;
@@ -37,34 +37,34 @@
 img {
     width: 100%;
     height: 500px;
-    border-radius: 5px!important;
+    border-radius: 5px !important;
     margin: 0 auto 0 0;
     object-fit: cover;
     display: block;
     background-position: 50% 50%;
 }
 
-.btn-accept{
+.btn-accept {
     background-color: #30bf26 !important;
 }
 
-.btn-deny{
+.btn-deny {
     background-color: #e84d1e !important;
 }
 
-.btn-a{
+.btn-a {
     color: #ffffff !important;
     text-transform: uppercase;
-    font-weight: 700!important;
-    width: 100px!important;
-    height: 25px!important;
+    font-weight: 700 !important;
+    width: 100px !important;
+    height: 25px !important;
     background-image: none;
     margin: 0 20px 0 0;
     border: none;
-    border-radius: 10px!important;
+    border-radius: 10px !important;
 }
 
-.btn-a:hover{
+.btn-a:hover {
     transform: scale(1.125);
     box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.24);
 }

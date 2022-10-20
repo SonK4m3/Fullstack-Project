@@ -83,8 +83,11 @@ function _set_image(set_url, list_topics, topic) {
     show_set_image(set_url);
 }
 
-function _list_image(list_url, list_topics, topic, index_start, number_limit) {
+function _list_image(list_topics, topic) {
     //initialize static web
-    _basic(list_topics, topic);  
+    _basic(list_topics, topic);
+
+    const x = document.querySelectorAll('.btn-a');
+    
 }
 
