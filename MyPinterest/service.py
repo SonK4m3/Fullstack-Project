@@ -1,8 +1,22 @@
-from flask import Flask, render_template, url_for, redirect, request, jsonify, session
+from flask import Flask, render_template, url_for, redirect, request, session
 from flask_session import Session
 from flask_paginate import Pagination, get_page_args
 from markupsafe import escape
-from backend.pinterest import get_image, get_list_image, get_set_image, get_list_public_image
+import math
+
+import sys
+import os
+# import module printerest database
+myDir = os.getcwd()
+sys.path.append(myDir)
+
+from pathlib import Path
+path = Path(myDir)
+a=str(path.parent.absolute())
+
+sys.path.append(a)
+from my_database.pinterest_database import *
+###
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -10,13 +24,14 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 _DEFAULT_TOPIC = 'pokemon'
-_TOPPICS = ['pokemon', 'naruto', 'hero', 'badminton']
+_TOPPICS = get_all_topics()
 _DEFAULT_LIMIT_IMAGE = 6
 
 @app.route('/', methods=['POST', 'GET'])
 @app.route('/home', methods=['POST', 'GET'])
 def home():
     if request.method == 'POST':
+        #run to image when click choose topic image
         topic = request.form['select-topic']
         if topic:
             return redirect(url_for('image', topic=topic))
@@ -25,11 +40,12 @@ def home():
 @app.route('/image/<topic>', methods=['POST', 'GET'])
 def image(topic=_DEFAULT_TOPIC):
     if request.method == 'POST':
+        #select topic -> reload image following topic
         topic = request.form['select-topic']
         if (request.form['button'] == 'other-image' or request.form['button'] == 'submit-topic'):
             return redirect(url_for('image', topic=topic))
 
-    return render_template('image.html', topic=topic, list_topics = _TOPPICS,url_image = get_image(topic))
+    return render_template('image.html', topic=topic, list_topics=_TOPPICS, url_image=get_random_url(topic))
 
 
 @app.route('/list/<topic>', methods=['POST', 'GET'])
@@ -45,26 +61,61 @@ def list_image(topic=_DEFAULT_TOPIC):
             if topic:
                 session['number'] = None
                 return redirect(url_for('list_image', topic=topic))
-        if request.form['button'] == 'another-list':
+        elif request.form['button'] == 'another-list':
             number = int(request.form["limit-number"])
             session['number'] = number
-            page, per_page, offset = get_page_args(page_parameter='page', per_page=number)        
-            list_image = get_list_image(topic)
+            page, per_page, offset = get_page_args(page_parameter='page', per_page=number)       
+            #rechange start index and page number when select number out of page
+            list_image = get_list_urls(topic)
             total = len(list_image)
+            page = math.ceil(total/per_page) if page > math.ceil(total/per_page) else page
+            offset = per_page * (page - 1)
+            
             pagination = Pagination(page=page, per_page=per_page, total=total,
                                     css_framework='bootstrap4')
-            return render_template('list_image.html', list_topics = _TOPPICS, topic=topic, list_image = list_image,
+            return render_template('list_image.html', list_topics=_TOPPICS, topic=topic, list_image=list_image,
                            offset = offset,
                            page=page,
                            per_page=per_page,
                            pagination=pagination)
             
-    page, per_page, offset = get_page_args(page_parameter='page', per_page=number)        
-    list_image = get_list_image(topic)
+        #add a and b into start value to differentiate 
+        elif request.form['button'][0] == 'a':
+            url = request.values['button'][1::]
+            if url:
+                # print(url)
+                # remove image from image to public
+                remove_url_from_image_to_public(topic, url)
+                # reload page
+                number = int(request.form["limit-number"])
+                session['number'] = number
+                page, per_page, offset = get_page_args(page_parameter='page', per_page=number)       
+                #rechange start index and page number when select number out of page
+                list_image = get_list_urls(topic)
+                total = len(list_image)
+                page = math.ceil(total/per_page) if page > math.ceil(total/per_page) else page
+                offset = per_page * (page - 1)
+                
+                pagination = Pagination(page=page, per_page=per_page, total=total,
+                                        css_framework='bootstrap4')
+                return render_template('list_image.html', list_topics=_TOPPICS, topic=topic, list_image=list_image,
+                           offset = offset,
+                           page=page,
+                           per_page=per_page,
+                           pagination=pagination)
+        
+        if request.form['button'][0] == 'b':
+            url = request.values['button'][1::]
+            if url:
+                # print(url)
+                return redirect(url_for('list_image', topic=topic))
+        
+    page, per_page, offset = get_page_args(page_parameter='page', per_page=number)       
+    list_image = get_list_urls(topic)
     total = len(list_image)
     pagination = Pagination(page=page, per_page=per_page, total=total,
                             css_framework='bootstrap4')
-    return render_template('list_image.html', list_topics = _TOPPICS, topic=topic, list_image = list_image,
+    return render_template('list_image.html', list_topics=_TOPPICS, topic=topic, list_image=list_image,
                            offset = offset,
                            page=page,
                            per_page=per_page,
@@ -80,14 +131,14 @@ def set_image(topic=_DEFAULT_TOPIC):
         if request.form['button'] == 'another-list':
             number = int(request.form["limit-number"])
             if number:
-                return render_template('set_image.html', list_topics = _TOPPICS, set_image = get_set_image(topic,number), topic=topic)
-    return render_template('set_image.html', list_topics = _TOPPICS, set_image = get_set_image(topic,_DEFAULT_LIMIT_IMAGE), topic=topic)
+                return render_template('set_image.html', list_topics=_TOPPICS, set_image=get_random_url(topic,number), topic=topic)
+    return render_template('set_image.html', list_topics=_TOPPICS, set_image=get_random_url(topic,_DEFAULT_LIMIT_IMAGE), topic=topic)
  
 @app.route('/public', methods=['POST', 'GET'])
 def public_image():
     if request.method == 'POST':
         return redirect(url_for('public_image'))
-    return render_template('public_image.html', list_public_image = get_list_public_image(), list_topics=_TOPPICS, topic=_DEFAULT_TOPIC)
+    return render_template('public_image.html', list_public_image = get_list_urls_public(), list_topics=_TOPPICS, topic=_DEFAULT_TOPIC)
 
 
 if __name__ == '__main__':
