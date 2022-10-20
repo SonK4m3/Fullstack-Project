@@ -14,7 +14,7 @@ C:.
 ├───Demo Image
 └───MyPinterest
     ├───backend
-    │   ├───datas 
+    │   ├───datas
     │   ├───topics
     │   └───__pycache__
     ├───crawler
@@ -23,7 +23,12 @@ C:.
     │   └───src
     │       └───__pycache__
     ├───flask_session
+    ├───my_database
+    │   ├───data
+    │   └───__pycache__
     ├───static
     │   ├───images
     │   ├───js
     │   └───styles
+    └───templates
+```
