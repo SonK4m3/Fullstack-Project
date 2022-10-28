@@ -32,3 +32,12 @@ C:.
     │   └───styles
     └───templates
 ```
+
+```
+DEveloping content:
+- javascript: asynchronous, await
+- updata ui
+- opencv in js
+- mediapipe tensorflow
+- faceswap web like app
+```
