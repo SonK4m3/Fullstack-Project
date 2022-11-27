@@ -1,4 +1,4 @@
-# **Fullstack-Intern-Project**
+# **Fullstack-Project**
 
 ![demo 1](/Demo%20Image/web_demo.png)
 ![demo 2](/Demo%20Image/verson_2.jpg)
