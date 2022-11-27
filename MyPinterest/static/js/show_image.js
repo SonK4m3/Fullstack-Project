@@ -48,6 +48,7 @@ function select_topic(list_topics) {
     for (let i = 0; i < list_topics.length; i++) {
         let option = document.createElement('option');
         option.value = list_topics[i];
+        option.id = 'topic';
         option.textContent = list_topics[i];
         select.appendChild(option);
     }
