@@ -2,6 +2,18 @@ import requests
 import json
 import os
 import urllib
+import sys
+import os
+# import module printerest database
+myDir = os.getcwd()
+sys.path.append(myDir)
+
+from pathlib import Path
+path = Path(myDir)
+a=str(path.parent.absolute())
+
+sys.path.append(a)
+from my_database.convert_json_to_database import *
 
 PATH = 'D:/Python/Flask/MyPinterest/backend/topics'
 URL = None
@@ -31,6 +43,10 @@ def find_file(name):
     current_path = __file__.replace(__file__.split('\\')[-1], name)
     return current_path
 
+def add_new_topic_to_databse(topic, datas):
+    add_topic(topic)
+    add_image(topic, datas)
+
 class Scraper:
     def __init__(self, config, image_urls=[]):
         self.config = config
@@ -45,8 +61,10 @@ class Scraper:
         # prev get links
         results = self.get_urls()
         
-        filename = PATH + '/' + self.config.search_keywords +  '.json'
-        rewrite_json(filename, results)
+        add_new_topic_to_databse(self.config.search_keywords, results)
+        
+        # filename = PATH + '/' + self.config.search_keywords +  '.json'
+        # rewrite_json(filename, results)
 
 
         try:
