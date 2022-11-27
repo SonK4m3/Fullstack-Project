@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, request, session
+from flask import Flask, render_template, url_for, redirect, request, session, json
 from flask_session import Session
 from flask_paginate import Pagination, get_page_args
 from markupsafe import escape
@@ -83,7 +83,7 @@ def list_image(topic=_DEFAULT_TOPIC):
         elif request.form['button'][0] == 'a':
             url = request.values['button'][1::]
             if url:
-                # print(url)
+                print(url)
                 # remove image from image to public
                 remove_url_from_image_to_public(topic, url)
                 # reload page
@@ -140,6 +140,26 @@ def public_image():
         return redirect(url_for('public_image'))
     return render_template('public_image.html', list_public_image = get_list_urls_public(), list_topics=_TOPPICS, topic=_DEFAULT_TOPIC)
 
+@app.route('/get-image/<topic>', methods=['GET'])
+def get_json_image(topic):
+    db_images = get_list_urls(topic)
+    json_images = json.jsonify(db_images)
+    
+    return json_images
+
+@app.route('/get-public-image', methods=['GET'])
+def move_image_public():
+    url = request.args.get('url', default="", type=str)
+    topic = request.args.get('topic', default="", type=str)
+    if url:
+        # print(topic,url)
+        # remove image from image to public
+        remove_url_from_image_to_public(topic, url)
+    return [topic, url]
+    
+@app.route('/show', methods=['GET', 'POST'])
+def show_image():
+    return render_template('show_image.html', list_topics=_TOPPICS, topic=_DEFAULT_TOPIC)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4040, debug=True)
