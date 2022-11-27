@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}Show Image | My Website{% endblock title %} </title>
+    <script src="/static/js/show_image.js"></script>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles/basic.css">
+    <link rel="stylesheet" href="/static/styles/list_image.css">
+    <link rel="stylesheet" href="/static/styles/set_image.css">
+    <link rel="stylesheet" href="/static/styles/show_image.css">
+</head>
+
+<body {% block onload%}onload="_list_image({{list_topics}}, '{{topic}}');" {% endblock onload%}>
+    <div class="top">
+        <h1> Welcome to my Website </h1>
+        <div class="container-header">
+            <header class="p-3 mb-3 border-bottom">
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" id="actives">
+                </ul>
+            </header>
+        </div>
+        <div class="select">
+            <label for="select-topic"> Select topic:
+                <select id="select-topic" name="select-topic" autofocus>
+                    <option value={{topic}}>--Choose a topic--</option>
+                </select>
+            </label>
+            <button class="button btn-select-topic" name="button" value="submit-topic">Show</button>
+        </div>
+    </div>
+    <main>
+        <h2> Show image by Javascript </h2>
+        <label for='limit-number'>Number of Image: </label>
+        <select name="limit-number" id="limit-number">
+            <option value={{per_page}}>-{{per_page}}-</option>
+            <option value="6" id="number-image" name='6-images'>6</option>
+            <option value="15" id="number-image" name='15-images'>15</option>
+            <option value="21" id="number-image" name='21-images'>21</option>
+        </select>
+        <button class="button btn-select-number" name="button" value="another-list"> other image </button>
+
+        <div class="album-image py-5 bg-light">
+            <nav class="pagination"></nav>
+            <div class="container-album">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                </div>
+            </div>
+            <nav class="pagination pagi-bottom"></nav>
+        </div>
+
+        <script src="/static/js/redering_image.js"></script>
+    </main>
+</body>
+
+</html>
