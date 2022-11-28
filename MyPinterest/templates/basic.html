@@ -33,7 +33,9 @@
   </div>
   <main>
     <h2> {% block dictionary %}Image{% endblock dictionary %} of {% block topic %}topic{% endblock topic %} </h2>
-    {% block content %}{% endblock content %}
+    {% block content %}
+      <a href="/show">Go to List image using client rendering</a>
+    {% endblock content %}
   </main>
   <script>
 
